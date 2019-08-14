@@ -1,6 +1,0 @@
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\bin\Debug\netstandard2.0\Kingfisher.Caching.deps.json
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\bin\Debug\netstandard2.0\Kingfisher.Caching.dll
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\obj\Debug\netstandard2.0\Kingfisher.Caching.csprojAssemblyReference.cache
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\obj\Debug\netstandard2.0\Kingfisher.Caching.csproj.CoreCompileInputs.cache
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\obj\Debug\netstandard2.0\Kingfisher.Caching.AssemblyInfoInputs.cache
-C:\Users\vidmantas\source\repos\Kingfisher.Caching\Kingfisher.Caching\obj\Debug\netstandard2.0\Kingfisher.Caching.AssemblyInfo.cs
