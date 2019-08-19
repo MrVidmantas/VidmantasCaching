@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vidmantas.Caching", "Vidmantas.Caching\Vidmantas.Caching.csproj", "{8667471D-4F07-4522-9656-2F63807E4F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.HttpRuntime", "Vidmantas.Caching.Provider.HttpRuntime\Vidmantas.Caching.Provider.HttpRuntime.csproj", "{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.NetMemory", "Vidmantas.Caching.Provider.NetMemory\Vidmantas.Caching.Provider.NetMemory.csproj", "{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.Redis", "Vidmantas.Caching.Provider.Redis\Vidmantas.Caching.Provider.Redis.csproj", "{4E52E5E9-2286-45A5-9D34-565374E41114}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vidmantas.Caching.Provider.Redis", "Vidmantas.Caching.Provider.Redis\Vidmantas.Caching.Provider.Redis.csproj", "{4E52E5E9-2286-45A5-9D34-565374E41114}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

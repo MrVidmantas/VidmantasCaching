@@ -7,8 +7,8 @@
     <ProjectGuid>{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vidmantas.Caching.Provider.HttpRuntime</RootNamespace>
-    <AssemblyName>Vidmantas.Caching.Provider.HttpRuntime</AssemblyName>
+    <RootNamespace>Vidmantas.Caching.Provider.NetMemory</RootNamespace>
+    <AssemblyName>Vidmantas.Caching.Provider.NetMemory</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NetMemoryCacheProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vidmantas.Caching\Vidmantas.Caching.csproj">
+      <Project>{8667471D-4F07-4522-9656-2F63807E4F6E}</Project>
+      <Name>Vidmantas.Caching</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
