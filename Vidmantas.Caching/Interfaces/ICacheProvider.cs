@@ -21,7 +21,7 @@
         Task<bool> AddAsync(ICacheKey cacheKey, object value);
 
         /// <summary>
-        /// Does the key exist in the cache
+        /// Checks if the key exists in the cache
         /// </summary>
         /// <param name="cacheKey">The cache key.</param>
         /// <returns>
@@ -46,13 +46,22 @@
         Task<(T cachedValue, string cacheKey)> GetAsync<T>(ICacheKey cacheKey) where T : class;
 
         /// <summary>
-        /// Removes an items with the specified key from the cache
+        /// Removes an item with the specified key from the cache
         /// </summary>
         /// <param name="cacheKey">The cache key.</param>
         /// <returns>
         ///   <see cref="bool" />
         /// </returns>
         Task<bool> RemoveAsync(ICacheKey cacheKey);
+
+        /// <summary>
+        /// Removes items from cache that match the specified key at least partially
+        /// </summary>
+        /// <param name="cacheKey">The cache key.</param>
+        /// <returns>
+        ///   <see cref="bool" />
+        /// </returns>
+        Task<bool> RemovePartialMatchesAsync(ICacheKey cacheKey);
 
         #endregion
     }

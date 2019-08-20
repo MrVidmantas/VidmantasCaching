@@ -154,13 +154,19 @@
         }
 
         /// <summary>
-        /// Removes the an item from cache by method name
+        /// Removes the an item from cache.
+        /// Does nothing if all 3 parameters are null.
         /// </summary>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
         /// <param name="autoParentKey">The reflected caller path</param>
         public async Task RemoveAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null)
         {
+            if (memberName == null && cacheKeyModifier == null && autoParentKey == null)
+            {
+                return;
+            }
+
             var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
 
             var primaryRemoveResult = await _primaryProvider.RemoveAsync(cacheKey);
@@ -174,8 +180,40 @@
                 var secondaryRemoveResult = await _secondaryProvider.RemoveAsync(cacheKey);
 
                 _logger.LogInformation(secondaryRemoveResult
-                    ? $"REMOVED an object from the primary cache for {cacheKey}"
-                    : $"DID NOT remove item from the primary cache for {cacheKey}");
+                    ? $"REMOVED an object from the secondary cache for {cacheKey}"
+                    : $"DID NOT remove item from the secondary cache for {cacheKey}");
+            }
+        }
+
+        /// <summary>
+        /// Removes items from cache that match the key at least partially
+        /// Does nothing if all 3 parameters are null.
+        /// </summary>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
+        /// <param name="autoParentKey">The reflected caller path</param>
+        public async Task RemovePartialMatchesAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null)
+        {
+            if (memberName == null && cacheKeyModifier == null && autoParentKey == null)
+            {
+                return;
+            }
+
+            var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
+
+            var primaryRemoveResult = await _primaryProvider.RemovePartialMatchesAsync(cacheKey);
+
+            _logger.LogInformation(primaryRemoveResult
+                ? $"REMOVED all partial matches from the primary cache for {cacheKey}"
+                : $"DID NOT remove any items from the primary cache for {cacheKey}");
+
+            if (IsSecondaryProviderInUse)
+            {
+                var secondaryRemoveResult = await _secondaryProvider.RemovePartialMatchesAsync(cacheKey);
+
+                _logger.LogInformation(secondaryRemoveResult
+                    ? $"REMOVED all partial matches from the secondary cache for {cacheKey}"
+                    : $"DID NOT remove any items from the secondary cache for {cacheKey}");
             }
         }
 

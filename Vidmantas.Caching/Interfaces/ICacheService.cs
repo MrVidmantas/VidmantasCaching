@@ -34,12 +34,23 @@
         Task<bool> FlushAsync();
 
         /// <summary>
-        /// Removes the an item from cache by method name
+        /// Removes the an item from cache
+        /// Could remove partial matches based on the ICacheProvider implementation used.
+        /// Does nothing if all 3 parameters are null.
         /// </summary>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
         /// <param name="autoParentKey">The reflected caller path</param>
         Task RemoveAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null);
+
+        /// <summary>
+        /// Removes items from cache that match the key at least partially
+        /// Does nothing if all 3 parameters are null.
+        /// </summary>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
+        /// <param name="autoParentKey">The reflected caller path</param>
+        Task RemovePartialMatchesAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null);
 
         #endregion
     }

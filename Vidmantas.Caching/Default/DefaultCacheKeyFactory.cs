@@ -37,8 +37,7 @@
             return new CacheKey
             {
                 ParentKey = processedParentKey,
-                ValueKey = combinedValueKey,
-                ValueKeyModifier = valueKeyModifier
+                ValueKey = combinedValueKey
             };
         }
 

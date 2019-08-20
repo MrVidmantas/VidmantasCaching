@@ -20,14 +20,6 @@
         /// </value>
         string ValueKey { get; set; }
 
-        /// <summary>
-        /// Gets or sets the value key modifier.
-        /// </summary>
-        /// <value>
-        /// The value key modifier.
-        /// </value>
-        object ValueKeyModifier { get; set; }
-
         #endregion
     }
 }
