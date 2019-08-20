@@ -17,36 +17,20 @@
 
         private readonly ICacheKeyFactory _cacheKeyFactory;
 
+        private readonly ICacheProvider _cacheProvider;
+
         private readonly ILogger<CacheService> _logger;
-
-        private readonly IPrimaryCacheProvider _primaryProvider;
-
-        private readonly ISecondaryCacheProvider _secondaryProvider;
 
         #endregion
 
         #region Constructors
 
-        public CacheService(IPrimaryCacheProvider primaryProvider, ISecondaryCacheProvider secondaryProvider, ILogger<CacheService> logger, ICacheKeyFactory cacheKeyFactory)
+        public CacheService(ILogger<CacheService> logger, ICacheKeyFactory cacheKeyFactory, ICacheProvider cacheProvider)
         {
-            _primaryProvider = primaryProvider;
-            _secondaryProvider = secondaryProvider;
             _logger = logger;
             _cacheKeyFactory = cacheKeyFactory;
+            _cacheProvider = cacheProvider;
         }
-
-        public CacheService(IPrimaryCacheProvider primaryProvider, ILogger<CacheService> logger, ICacheKeyFactory cacheKeyFactory)
-        {
-            _primaryProvider = primaryProvider;
-            _logger = logger;
-            _cacheKeyFactory = cacheKeyFactory;
-        }
-
-        #endregion
-
-        #region Properties
-
-        private bool IsSecondaryProviderInUse => _secondaryProvider != null;
 
         #endregion
 
@@ -74,25 +58,13 @@
 
             var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, autoMemberName, cacheKeyModifier);
 
-            T primaryCachedValue = await _primaryProvider.GetAsync<T>(cacheKey);
+            T cachedValue = await _cacheProvider.GetAsync<T>(cacheKey);
 
-            if (primaryCachedValue != null)
+            if (cachedValue != null)
             {
-                _logger.LogInformation($"Fetched object from the primary cache for {cacheKey}");
+                _logger.LogInformation($"Fetched object from the cache for {cacheKey}");
 
-                return primaryCachedValue;
-            }
-
-            if (IsSecondaryProviderInUse)
-            {
-                T secondaryCachedValue = await _secondaryProvider.GetAsync<T>(cacheKey);
-
-                if (secondaryCachedValue != null)
-                {
-                    _logger.LogInformation($"Fetched object from the secondary cache for {cacheKey}");
-
-                    return secondaryCachedValue;
-                }
+                return cachedValue;
             }
 
             var result = await itemToAddFunc();
@@ -107,29 +79,15 @@
                     return result;
             }
 
-            var primaryAddResult = await _primaryProvider.AddAsync(cacheKey, result);
+            var cacheAddResult = await _cacheProvider.AddAsync(cacheKey, result);
 
-            if (primaryAddResult)
+            if (cacheAddResult)
             {
-                _logger.LogInformation($"Added an object to the primary cache for {cacheKey}");
+                _logger.LogInformation($"Added an object to the cache for {cacheKey}");
             }
             else
             {
-                _logger.LogWarning("There was an issue adding the object to the primary cache.");
-            }
-
-            if (IsSecondaryProviderInUse)
-            {
-                var secondaryAddResult = await _secondaryProvider.AddAsync(cacheKey, result);
-
-                if (secondaryAddResult)
-                {
-                    _logger.LogInformation($"Added an object to the secondary cache for {cacheKey}");
-                }
-                else
-                {
-                    _logger.LogWarning("There was an issue adding the object to the secondary cache.");
-                }
+                _logger.LogWarning("There was an issue adding the object to the cache.");
             }
 
             return result;
@@ -141,16 +99,7 @@
         /// <returns>True if the cache was successfully flushed, false otherwise</returns>
         public async Task<bool> FlushAsync()
         {
-            var primaryResult = await _primaryProvider.FlushAsync();
-
-            if (!IsSecondaryProviderInUse)
-            {
-                return primaryResult;
-            }
-
-            var secondaryResult = await _secondaryProvider.FlushAsync();
-
-            return primaryResult && secondaryResult;
+            return await _cacheProvider.FlushAsync();
         }
 
         /// <summary>
@@ -169,20 +118,11 @@
 
             var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
 
-            var primaryRemoveResult = await _primaryProvider.RemoveAsync(cacheKey);
+            var removeResult = await _cacheProvider.RemoveAsync(cacheKey);
 
-            _logger.LogInformation(primaryRemoveResult
-                ? $"REMOVED an object from the primary cache for {cacheKey}"
-                : $"DID NOT remove item from the primary cache for {cacheKey}");
-
-            if (IsSecondaryProviderInUse)
-            {
-                var secondaryRemoveResult = await _secondaryProvider.RemoveAsync(cacheKey);
-
-                _logger.LogInformation(secondaryRemoveResult
-                    ? $"REMOVED an object from the secondary cache for {cacheKey}"
-                    : $"DID NOT remove item from the secondary cache for {cacheKey}");
-            }
+            _logger.LogInformation(removeResult
+                ? $"REMOVED an object from the cache for {cacheKey}"
+                : $"DID NOT remove item from the cache for {cacheKey}");
         }
 
         /// <summary>
@@ -201,20 +141,11 @@
 
             var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
 
-            var primaryRemoveResult = await _primaryProvider.RemovePartialMatchesAsync(cacheKey);
+            var removeResult = await _cacheProvider.RemovePartialMatchesAsync(cacheKey);
 
-            _logger.LogInformation(primaryRemoveResult
-                ? $"REMOVED all partial matches from the primary cache for {cacheKey}"
-                : $"DID NOT remove any items from the primary cache for {cacheKey}");
-
-            if (IsSecondaryProviderInUse)
-            {
-                var secondaryRemoveResult = await _secondaryProvider.RemovePartialMatchesAsync(cacheKey);
-
-                _logger.LogInformation(secondaryRemoveResult
-                    ? $"REMOVED all partial matches from the secondary cache for {cacheKey}"
-                    : $"DID NOT remove any items from the secondary cache for {cacheKey}");
-            }
+            _logger.LogInformation(removeResult
+                ? $"REMOVED all partial matches from the cache for {cacheKey}"
+                : $"DID NOT remove any items from the cache for {cacheKey}");
         }
 
         #endregion
