@@ -92,20 +92,20 @@
         /// <returns>
         /// Type object if it exists in the cache, null otherwise. Also returns the underlying cache key used.
         /// </returns>
-        public Task<(T cachedValue, string cacheKey)> GetAsync<T>(ICacheKey cacheKey) where T : class
+        public Task<T> GetAsync<T>(ICacheKey cacheKey) where T : class
         {
             var cachedValue = _cache.Get(cacheKey.ToString());
 
             try
             {
-                return Task.FromResult(((T)cachedValue, cacheKey.ToString()));
+                return Task.FromResult((T)cachedValue);
             }
             catch (Exception)
             {
                 // ignored if the cached value was null or the cast failed
             }
 
-            return Task.FromResult((default(T), cacheKey.ToString()));
+            return Task.FromResult(default(T));
         }
 
         /// <summary>

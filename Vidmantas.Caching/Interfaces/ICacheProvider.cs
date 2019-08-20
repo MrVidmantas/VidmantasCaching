@@ -43,7 +43,7 @@
         /// <returns>
         /// Type object if it exists in the cache, null otherwise. Also returns the underlying cache key used.
         /// </returns>
-        Task<(T cachedValue, string cacheKey)> GetAsync<T>(ICacheKey cacheKey) where T : class;
+        Task<T> GetAsync<T>(ICacheKey cacheKey) where T : class;
 
         /// <summary>
         /// Removes an item with the specified key from the cache
