@@ -74,22 +74,22 @@
 
             var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, autoMemberName, cacheKeyModifier);
 
-            (T primaryCachedValue, string primaryCacheKey) = await _primaryProvider.GetAsync<T>(cacheKey);
+            T primaryCachedValue = await _primaryProvider.GetAsync<T>(cacheKey);
 
             if (primaryCachedValue != null)
             {
-                _logger.LogInformation($"Fetched object from the primary cache for {primaryCacheKey}");
+                _logger.LogInformation($"Fetched object from the primary cache for {cacheKey}");
 
                 return primaryCachedValue;
             }
 
             if (IsSecondaryProviderInUse)
             {
-                (T secondaryCachedValue, string secondaryCacheKey) = await _secondaryProvider.GetAsync<T>(cacheKey);
+                T secondaryCachedValue = await _secondaryProvider.GetAsync<T>(cacheKey);
 
                 if (secondaryCachedValue != null)
                 {
-                    _logger.LogInformation($"Fetched object from the secondary cache for {secondaryCacheKey}");
+                    _logger.LogInformation($"Fetched object from the secondary cache for {cacheKey}");
 
                     return secondaryCachedValue;
                 }
