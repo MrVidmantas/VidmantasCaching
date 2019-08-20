@@ -15,6 +15,8 @@
     {
         #region Fields
 
+        private readonly ICacheKeyFactory _cacheKeyFactory;
+
         private readonly ILogger<CacheService> _logger;
 
         private readonly IPrimaryCacheProvider _primaryProvider;
@@ -25,17 +27,19 @@
 
         #region Constructors
 
-        public CacheService(IPrimaryCacheProvider primaryProvider, ISecondaryCacheProvider secondaryProvider, ILogger<CacheService> logger)
+        public CacheService(IPrimaryCacheProvider primaryProvider, ISecondaryCacheProvider secondaryProvider, ILogger<CacheService> logger, ICacheKeyFactory cacheKeyFactory)
         {
             _primaryProvider = primaryProvider;
             _secondaryProvider = secondaryProvider;
             _logger = logger;
+            _cacheKeyFactory = cacheKeyFactory;
         }
 
-        public CacheService(IPrimaryCacheProvider primaryProvider, ILogger<CacheService> logger)
+        public CacheService(IPrimaryCacheProvider primaryProvider, ILogger<CacheService> logger, ICacheKeyFactory cacheKeyFactory)
         {
             _primaryProvider = primaryProvider;
             _logger = logger;
+            _cacheKeyFactory = cacheKeyFactory;
         }
 
         #endregion
@@ -68,7 +72,9 @@
                 return await itemToAddFunc();
             }
 
-            (T primaryCachedValue, string primaryCacheKey) = await _primaryProvider.GetAsync<T>(autoParentKey, autoMemberName, cacheKeyModifier);
+            var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, autoMemberName, cacheKeyModifier);
+
+            (T primaryCachedValue, string primaryCacheKey) = await _primaryProvider.GetAsync<T>(cacheKey);
 
             if (primaryCachedValue != null)
             {
@@ -79,7 +85,7 @@
 
             if (IsSecondaryProviderInUse)
             {
-                (T secondaryCachedValue, string secondaryCacheKey) = await _secondaryProvider.GetAsync<T>(autoParentKey, autoMemberName, cacheKeyModifier);
+                (T secondaryCachedValue, string secondaryCacheKey) = await _secondaryProvider.GetAsync<T>(cacheKey);
 
                 if (secondaryCachedValue != null)
                 {
@@ -101,11 +107,11 @@
                     return result;
             }
 
-            var primaryAddResult = await _primaryProvider.AddAsync(autoParentKey, autoMemberName, cacheKeyModifier, result);
+            var primaryAddResult = await _primaryProvider.AddAsync(cacheKey, result);
 
-            if (primaryAddResult.Success)
+            if (primaryAddResult)
             {
-                _logger.LogInformation($"Added an object to the primary cache for {primaryAddResult.CacheKey}");
+                _logger.LogInformation($"Added an object to the primary cache for {cacheKey}");
             }
             else
             {
@@ -114,11 +120,11 @@
 
             if (IsSecondaryProviderInUse)
             {
-                var secondaryAddResult = await _secondaryProvider.AddAsync(autoParentKey, autoMemberName, cacheKeyModifier, result);
+                var secondaryAddResult = await _secondaryProvider.AddAsync(cacheKey, result);
 
-                if (secondaryAddResult.Success)
+                if (secondaryAddResult)
                 {
-                    _logger.LogInformation($"Added an object to the secondary cache for {secondaryAddResult.CacheKey}");
+                    _logger.LogInformation($"Added an object to the secondary cache for {cacheKey}");
                 }
                 else
                 {
@@ -148,26 +154,66 @@
         }
 
         /// <summary>
-        /// Removes the an item from cache by method name
+        /// Removes the an item from cache.
+        /// Does nothing if all 3 parameters are null.
         /// </summary>
         /// <param name="memberName">Name of the member.</param>
         /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
         /// <param name="autoParentKey">The reflected caller path</param>
         public async Task RemoveAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null)
         {
-            var primaryRemoveResult = await _primaryProvider.RemoveAsync(autoParentKey, memberName, cacheKeyModifier);
+            if (memberName == null && cacheKeyModifier == null && autoParentKey == null)
+            {
+                return;
+            }
 
-            _logger.LogInformation(primaryRemoveResult.Success
-                ? $"REMOVED an object from the primary cache for {primaryRemoveResult.CacheKey}"
-                : $"DID NOT remove item from the primary cache for {primaryRemoveResult.CacheKey}");
+            var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
+
+            var primaryRemoveResult = await _primaryProvider.RemoveAsync(cacheKey);
+
+            _logger.LogInformation(primaryRemoveResult
+                ? $"REMOVED an object from the primary cache for {cacheKey}"
+                : $"DID NOT remove item from the primary cache for {cacheKey}");
 
             if (IsSecondaryProviderInUse)
             {
-                var secondaryRemoveResult = await _secondaryProvider.RemoveAsync(autoParentKey, memberName, cacheKeyModifier);
+                var secondaryRemoveResult = await _secondaryProvider.RemoveAsync(cacheKey);
 
-                _logger.LogInformation(secondaryRemoveResult.Success
-                    ? $"REMOVED an object from the primary cache for {secondaryRemoveResult.CacheKey}"
-                    : $"DID NOT remove item from the primary cache for {secondaryRemoveResult.CacheKey}");
+                _logger.LogInformation(secondaryRemoveResult
+                    ? $"REMOVED an object from the secondary cache for {cacheKey}"
+                    : $"DID NOT remove item from the secondary cache for {cacheKey}");
+            }
+        }
+
+        /// <summary>
+        /// Removes items from cache that match the key at least partially
+        /// Does nothing if all 3 parameters are null.
+        /// </summary>
+        /// <param name="memberName">Name of the member.</param>
+        /// <param name="cacheKeyModifier">The cache Key Modifier.</param>
+        /// <param name="autoParentKey">The reflected caller path</param>
+        public async Task RemovePartialMatchesAsync(string memberName = null, object cacheKeyModifier = null, [CallerFilePath]string autoParentKey = null)
+        {
+            if (memberName == null && cacheKeyModifier == null && autoParentKey == null)
+            {
+                return;
+            }
+
+            var cacheKey = await _cacheKeyFactory.CreateCacheKeyAsync(autoParentKey, memberName, cacheKeyModifier);
+
+            var primaryRemoveResult = await _primaryProvider.RemovePartialMatchesAsync(cacheKey);
+
+            _logger.LogInformation(primaryRemoveResult
+                ? $"REMOVED all partial matches from the primary cache for {cacheKey}"
+                : $"DID NOT remove any items from the primary cache for {cacheKey}");
+
+            if (IsSecondaryProviderInUse)
+            {
+                var secondaryRemoveResult = await _secondaryProvider.RemovePartialMatchesAsync(cacheKey);
+
+                _logger.LogInformation(secondaryRemoveResult
+                    ? $"REMOVED all partial matches from the secondary cache for {cacheKey}"
+                    : $"DID NOT remove any items from the secondary cache for {cacheKey}");
             }
         }
 
