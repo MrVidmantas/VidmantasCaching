@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vidmantas.Caching.Provider.Redis", "Vidmantas.Caching.Provider.Redis\Vidmantas.Caching.Provider.Redis.csproj", "{4E52E5E9-2286-45A5-9D34-565374E41114}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.DependencyInjection.NInject", "Vidmantas.Caching.DependencyInjection.NInject\Vidmantas.Caching.DependencyInjection.NInject.csproj", "{1163DB35-17C1-4FD1-B560-4C6211AE06A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.NetMemory.NInject", "Vidmantas.Caching.Provider.NetMemory.NInject\Vidmantas.Caching.Provider.NetMemory.NInject.csproj", "{CAA6BE39-3F80-4236-96AA-88BB78C42B83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{4E52E5E9-2286-45A5-9D34-565374E41114}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E52E5E9-2286-45A5-9D34-565374E41114}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E52E5E9-2286-45A5-9D34-565374E41114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1163DB35-17C1-4FD1-B560-4C6211AE06A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1163DB35-17C1-4FD1-B560-4C6211AE06A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1163DB35-17C1-4FD1-B560-4C6211AE06A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1163DB35-17C1-4FD1-B560-4C6211AE06A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAA6BE39-3F80-4236-96AA-88BB78C42B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAA6BE39-3F80-4236-96AA-88BB78C42B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAA6BE39-3F80-4236-96AA-88BB78C42B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAA6BE39-3F80-4236-96AA-88BB78C42B83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

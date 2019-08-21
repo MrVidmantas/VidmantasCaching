@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9}</ProjectGuid>
+    <ProjectGuid>{CAA6BE39-3F80-4236-96AA-88BB78C42B83}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vidmantas.Caching.Provider.NetMemory</RootNamespace>
-    <AssemblyName>Vidmantas.Caching.Provider.NetMemory</AssemblyName>
+    <RootNamespace>Vidmantas.Caching.Provider.NetMemory.NInject</RootNamespace>
+    <AssemblyName>Vidmantas.Caching.Provider.NetMemory.NInject</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Caching" />
@@ -43,17 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetMemoryCacheProvider.cs" />
+    <Compile Include="NInjectConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vidmantas.Caching.Provider.NetMemory\Vidmantas.Caching.Provider.NetMemory.csproj">
+      <Project>{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9}</Project>
+      <Name>Vidmantas.Caching.Provider.NetMemory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vidmantas.Caching\Vidmantas.Caching.csproj">
       <Project>{8667471D-4F07-4522-9656-2F63807E4F6E}</Project>
       <Name>Vidmantas.Caching</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
