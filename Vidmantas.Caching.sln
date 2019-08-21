@@ -9,9 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vidmantas.Caching.Provider.Redis", "Vidmantas.Caching.Provider.Redis\Vidmantas.Caching.Provider.Redis.csproj", "{4E52E5E9-2286-45A5-9D34-565374E41114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.DependencyInjection.NInject", "Vidmantas.Caching.DependencyInjection.NInject\Vidmantas.Caching.DependencyInjection.NInject.csproj", "{1163DB35-17C1-4FD1-B560-4C6211AE06A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vidmantas.Caching.DependencyInjection.NInject", "Vidmantas.Caching.DependencyInjection.NInject\Vidmantas.Caching.DependencyInjection.NInject.csproj", "{1163DB35-17C1-4FD1-B560-4C6211AE06A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vidmantas.Caching.Provider.NetMemory.NInject", "Vidmantas.Caching.Provider.NetMemory.NInject\Vidmantas.Caching.Provider.NetMemory.NInject.csproj", "{CAA6BE39-3F80-4236-96AA-88BB78C42B83}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{12894349-B77C-4B63-B9F0-2392FD1AB158}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DependencyInjection", "DependencyInjection", "{1A0B4925-6EE1-455A-9538-2104B7511EBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NInject", "NInject", "{C84298A7-8ABB-4A73-8153-6FE6B79840E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +48,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EC8C1A7-8BD7-4FC9-B203-B69405E5D8A9} = {12894349-B77C-4B63-B9F0-2392FD1AB158}
+		{4E52E5E9-2286-45A5-9D34-565374E41114} = {12894349-B77C-4B63-B9F0-2392FD1AB158}
+		{1163DB35-17C1-4FD1-B560-4C6211AE06A2} = {C84298A7-8ABB-4A73-8153-6FE6B79840E9}
+		{CAA6BE39-3F80-4236-96AA-88BB78C42B83} = {C84298A7-8ABB-4A73-8153-6FE6B79840E9}
+		{C84298A7-8ABB-4A73-8153-6FE6B79840E9} = {1A0B4925-6EE1-455A-9538-2104B7511EBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCA31EB3-3E66-4207-AFC3-D1ECBC0B6734}
