@@ -21,8 +21,17 @@
         private readonly ConnectionMultiplexer _redisConnections;
         private readonly ICacheObjectSerializer _objectSerializer;
 
-        public RedisCacheProvider(ILogger<RedisCacheProvider> logger, ICacheObjectSerializer objectSerializer)
+        public RedisCacheProvider(ILogger<RedisCacheProvider> logger, ICacheObjectSerializer objectSerializer, RedisCacheProviderOptions cacheOptions)
         {
+            if (string.IsNullOrEmpty(cacheOptions.CacheConnectionString))
+            {
+                throw new Exception("One or more required configuration options are missing in CacheOptions");
+            }
+
+            _connectionString = cacheOptions.CacheConnectionString;
+            _dataCacheTime = TimeSpan.FromMinutes(cacheOptions.ExpiryMinutes);
+            _redisConnections = ConnectionMultiplexer.Connect(_connectionString);
+
             _logger = logger;
             _objectSerializer = objectSerializer;
         }

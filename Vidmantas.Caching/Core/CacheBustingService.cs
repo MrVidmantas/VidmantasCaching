@@ -1,4 +1,5 @@
-﻿namespace Vidmantas.Caching.Core
+﻿// ReSharper disable ExplicitCallerInfoArgument
+namespace Vidmantas.Caching.Core
 {
     #region Usings
 
