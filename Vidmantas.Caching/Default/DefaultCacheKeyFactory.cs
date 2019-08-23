@@ -12,12 +12,20 @@
 
     public class DefaultCacheKeyFactory : ICacheKeyFactory
     {
+        #region Fields
+
         private readonly ICacheObjectSerializer _objectSerializer;
+
+        #endregion
+
+        #region Constructors
 
         public DefaultCacheKeyFactory(ICacheObjectSerializer objectSerializer)
         {
             _objectSerializer = objectSerializer;
         }
+
+        #endregion
 
         #region Interface Implementations
 

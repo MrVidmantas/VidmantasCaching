@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Vidmantas.Caching.Provider.HttpRuntime")]
+[assembly: AssemblyTitle("Vidmantas.Caching.Provider.NetMemory")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Vidmantas.Caching.Provider.HttpRuntime")]
+[assembly: AssemblyProduct("Vidmantas.Caching.Provider.NetMemory")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
