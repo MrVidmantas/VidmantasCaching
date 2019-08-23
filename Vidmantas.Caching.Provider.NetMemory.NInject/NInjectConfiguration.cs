@@ -1,14 +1,19 @@
 ﻿namespace Vidmantas.Caching.Provider.NetMemory.NInject
 {
+    #region Usings
+
     using System;
     using System.Collections.Specialized;
     using System.Runtime.Caching;
     using Interfaces;
-    using NetMemory;
     using Ninject;
+
+    #endregion
 
     public static class NInjectConfiguration
     {
+        #region Public Methods
+
         public static void UseNetMemoryProvider(this IKernel kernel, int cacheExpiry = 5)
         {
             var cacheItemPolicy = new CacheItemPolicy
@@ -23,5 +28,7 @@
                 .WithConstructorArgument(new NameValueCollection());
             kernel.Bind<CacheItemPolicy>().ToConstant(cacheItemPolicy).InSingletonScope();
         }
+
+        #endregion
     }
 }

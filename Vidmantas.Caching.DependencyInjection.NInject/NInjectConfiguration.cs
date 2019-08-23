@@ -1,5 +1,7 @@
 ﻿namespace Vidmantas.Caching.DependencyInjection.NInject
 {
+    #region Usings
+
     using System;
     using Core;
     using Default;
@@ -7,8 +9,12 @@
     using Microsoft.Extensions.Logging;
     using Ninject;
 
+    #endregion
+
     public static class NInjectConfiguration
     {
+        #region Public Methods
+
         /// <summary>
         /// Registers the caching services.
         /// </summary>
@@ -32,5 +38,7 @@
 
             return kernel;
         }
+
+        #endregion
     }
 }
