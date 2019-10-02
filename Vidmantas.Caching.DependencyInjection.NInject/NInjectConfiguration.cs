@@ -19,13 +19,13 @@
         /// Registers the caching services.
         /// </summary>
         /// <param name="kernel">The kernel.</param>
-        /// <returns></returns>
         public static IKernel RegisterCachingServices(this IKernel kernel)
         {
             var defaultLoggerFactory = new LoggerFactory();
 
             kernel.Bind<ICacheService>().To<CacheService>().InSingletonScope();
             kernel.Bind<ICacheKeyFactory>().To<DefaultCacheKeyFactory>().InTransientScope();
+            kernel.Bind<ICacheBustingService>().To<CacheBustingService>().InSingletonScope();
             kernel.Bind<ICacheObjectSerializer>().To<DefaultCacheObjectSerializer>().InTransientScope();
             kernel.Bind(typeof(ILogger<>)).ToMethod(ctx =>
                 {
