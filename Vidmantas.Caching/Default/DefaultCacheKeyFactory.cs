@@ -29,13 +29,6 @@
 
         #region Interface Implementations
 
-        /// <summary>
-        /// Creates the cache key.
-        /// </summary>
-        /// <param name="parentKey">The parent key.</param>
-        /// <param name="valueKey">The value key.</param>
-        /// <param name="valueKeyModifier">The value key modifier.</param>
-        /// <returns><see cref="Task{ICacheKey}"/></returns>
         public async Task<ICacheKey> CreateCacheKeyAsync(string parentKey, string valueKey, object valueKeyModifier)
         {
             var processedParentKey = ProcessParentKey(parentKey);
@@ -68,6 +61,6 @@
             return valueKeyModifier is null ? string.Empty : MD5Helper.CreateMd5(await _objectSerializer.ToByteArrayAsync(valueKeyModifier));
         }
 
-        #endregion 
+        #endregion
     }
 }

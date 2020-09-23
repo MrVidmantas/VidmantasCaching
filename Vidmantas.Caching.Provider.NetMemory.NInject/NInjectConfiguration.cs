@@ -14,11 +14,6 @@
     {
         #region Public Methods
 
-        /// <summary>
-        /// Uses the net memory provider.
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
-        /// <param name="cacheExpiry">The cache expiry.</param>
         public static void UseNetMemoryProvider(this IKernel kernel, int cacheExpiry = 5)
         {
             var cacheItemPolicy = new CacheItemPolicy

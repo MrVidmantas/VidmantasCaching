@@ -40,14 +40,6 @@
 
         #region Interface Implementations
 
-        /// <summary>
-        /// Adds an item to the cache
-        /// </summary>
-        /// <param name="cacheKey">The cache key.</param>
-        /// <param name="value">The value to add to the cache</param>
-        /// <returns>
-        ///   <see cref="bool" />
-        /// </returns>
         public async Task<bool> AddAsync(ICacheKey cacheKey, object value)
         {
             var successFlag = false;
@@ -74,13 +66,6 @@
             return successFlag;
         }
 
-        /// <summary>
-        /// Checks if the key exists in the cache
-        /// </summary>
-        /// <param name="cacheKey">The cache key.</param>
-        /// <returns>
-        ///   <see cref="bool" />
-        /// </returns>
         public async Task<bool> ExistsAsync(ICacheKey cacheKey)
         {
             var successFlag = false;
@@ -105,10 +90,6 @@
             return successFlag;
         }
 
-        /// <summary>
-        /// Expires all items in the cache
-        /// </summary>
-        /// <returns>True if the cache was successfully flushed, false otherwise</returns>
         public async Task<bool> FlushAsync()
         {
             try
@@ -134,14 +115,6 @@
             return true;
         }
 
-        /// <summary>
-        /// Gets an item from the cache with the specified key
-        /// </summary>
-        /// <typeparam name="T">The type</typeparam>
-        /// <param name="cacheKey">The cache key.</param>
-        /// <returns>
-        /// Type object if it exists in the cache, null otherwise. Also returns the underlying cache key used.
-        /// </returns>
         public async Task<T> GetAsync<T>(ICacheKey cacheKey) where T : class
         {
             try
@@ -167,13 +140,6 @@
             return default;
         }
 
-        /// <summary>
-        /// Removes an item with the specified key from the cache
-        /// </summary>
-        /// <param name="cacheKey">The cache key.</param>
-        /// <returns>
-        ///   <see cref="bool" />
-        /// </returns>
         public async Task<bool> RemoveAsync(ICacheKey cacheKey)
         {
             var successFlag = false;
@@ -196,13 +162,6 @@
             return successFlag;
         }
 
-        /// <summary>
-        /// Removes items from cache that match the specified key at least partially
-        /// </summary>
-        /// <param name="cacheKey">The cache key.</param>
-        /// <returns>
-        ///   <see cref="bool" />
-        /// </returns>
         public async Task<bool> RemovePartialMatchesAsync(ICacheKey cacheKey)
         {
             var successFlag = false;

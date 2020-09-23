@@ -1,5 +1,4 @@
-﻿// ReSharper disable ExplicitCallerInfoArgument
-namespace Vidmantas.Caching.Core
+﻿namespace Vidmantas.Caching.Core
 {
     #region Usings
 
@@ -34,15 +33,6 @@ namespace Vidmantas.Caching.Core
 
         #region Public Methods
 
-        /// <summary>
-        /// Provides a generic way of busting cache entries
-        /// </summary>
-        /// <typeparam name="T">
-        /// The type
-        /// </typeparam>
-        /// <param name="cacheKeyModifier">
-        /// The optional cache key modifier to identify the entry in the cache
-        /// </param>
         public async Task BustAsync<T>(object cacheKeyModifier = null) where T : class
         {
             var type = typeof(T);
@@ -50,20 +40,10 @@ namespace Vidmantas.Caching.Core
             await BustAsync(type, cacheKeyModifier);
         }
 
-        /// <summary>
-        /// Provides a generic way of busting cache entries
-        /// </summary>
-        /// <param name="type">
-        /// The type.
-        /// </param>
-        /// <param name="cacheKeyModifier">
-        /// The optional cache key modifier to identify the entry in the cache
-        /// </param>
         public async Task BustAsync(Type type, object cacheKeyModifier = null)
         {
             if (!_cachedRemovableMethods.TryGetValue(type.Name, out MethodInfo[] methodInfoArray))
             {
-                // Public or private methods
                 var bindingFlags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
                 var methods = type.GetMethods(bindingFlags).Where(x => Attribute.IsDefined(x, typeof(CacheRemovableAttribute))).ToArray();
@@ -72,7 +52,6 @@ namespace Vidmantas.Caching.Core
                 methodInfoArray = methods;
             }
 
-            // Items that cannot be busted with an exact modifier as it can never be accurately recreated in all areas
             await methodInfoArray
                 .Where(x => !x.GetCustomAttribute<CacheRemovableAttribute>().WithCacheKeyModifier)
                 .ForEachAsync(async method =>
@@ -85,7 +64,6 @@ namespace Vidmantas.Caching.Core
                 return;
             }
 
-            // Exact items based on a exact modifier
             await methodInfoArray
                 .Where(x => x.GetCustomAttribute<CacheRemovableAttribute>().WithCacheKeyModifier)
                 .ForEachAsync(async method =>
