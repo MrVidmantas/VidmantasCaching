@@ -16,11 +16,6 @@
     {
         #region Public Methods
 
-        /// <summary>
-        /// Uses the net memory provider.
-        /// </summary>
-        /// <param name="containerBuilder">The container builder.</param>
-        /// <param name="cacheExpiry">The cache expiry.</param>
         public static void UseNetMemoryProvider(this ContainerBuilder containerBuilder, int cacheExpiry = 5)
         {
             var cacheItemPolicy = new CacheItemPolicy

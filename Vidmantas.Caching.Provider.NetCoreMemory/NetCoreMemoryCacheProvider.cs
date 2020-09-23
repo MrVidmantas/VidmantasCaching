@@ -1,4 +1,4 @@
-﻿namespace Vidmantas.Caching.Provider.NetMemory
+﻿namespace Vidmantas.Caching.Provider.NetCoreMemory
 {
     #region Usings
 
@@ -10,7 +10,7 @@
 
     #endregion
 
-    public class NetMemoryCacheProvider : ICacheProvider
+    public class NetCoreMemoryCacheProvider : ICacheProvider
     {
         #region Fields
 
@@ -22,7 +22,7 @@
 
         #region Constructors
 
-        public NetMemoryCacheProvider(ObjectCache cache, CacheItemPolicy policy)
+        public NetCoreMemoryCacheProvider(ObjectCache cache, CacheItemPolicy policy)
         {
             _cache = cache;
             _policy = policy;

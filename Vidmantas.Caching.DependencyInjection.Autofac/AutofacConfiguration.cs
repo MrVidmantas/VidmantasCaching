@@ -14,11 +14,6 @@
     {
         #region Public Methods
 
-        /// <summary>
-        /// Registers the caching services.
-        /// </summary>
-        /// <param name="containerBuilder">The container builder.</param>
-        /// <returns></returns>
         public static ContainerBuilder RegisterCachingServices(this ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterType<CacheService>().As<ICacheService>().SingleInstance();

@@ -15,10 +15,6 @@
     {
         #region Public Methods
 
-        /// <summary>
-        /// Registers the caching services.
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
         public static IKernel RegisterCachingServices(this IKernel kernel)
         {
             var defaultLoggerFactory = new LoggerFactory();
