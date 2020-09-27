@@ -40,7 +40,7 @@
 
         #region Interface Implementations
 
-        public async Task<bool> AddAsync(ICacheKey cacheKey, object value)
+        public async Task<bool> AddAsync(ICacheKey cacheKey, object value, TimeSpan? expiryInMinutes = null)
         {
             var successFlag = false;
 
@@ -52,7 +52,7 @@
 
                 successFlag = await db.HashSetAsync(cacheKey.ParentKey, cacheKey.ValueKey, serializedObject);
 
-                await db.KeyExpireAsync(cacheKey.ParentKey, _dataCacheTime);
+                await db.KeyExpireAsync(cacheKey.ParentKey, expiryInMinutes ?? _dataCacheTime);
             }
             catch (RedisException rex)
             {

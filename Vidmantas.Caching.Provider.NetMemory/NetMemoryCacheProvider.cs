@@ -32,7 +32,7 @@
 
         #region Interface Implementations
 
-        public Task<bool> AddAsync(ICacheKey cacheKey, object value)
+        public Task<bool> AddAsync(ICacheKey cacheKey, object value, TimeSpan? expiryInMinutes = null)
         {
             var successFlag = _cache.Add(cacheKey.ToString(), value, _policy);
 

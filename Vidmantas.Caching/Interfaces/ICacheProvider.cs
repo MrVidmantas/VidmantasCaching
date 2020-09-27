@@ -2,6 +2,7 @@
 {
     #region Usings
 
+    using System;
     using System.Threading.Tasks;
 
     #endregion
@@ -10,7 +11,7 @@
     {
         #region Public Methods
 
-        Task<bool> AddAsync(ICacheKey cacheKey, object value);
+        Task<bool> AddAsync(ICacheKey cacheKey, object value, TimeSpan? expiryInMinutes = null);
 
         Task<bool> ExistsAsync(ICacheKey cacheKey);
 

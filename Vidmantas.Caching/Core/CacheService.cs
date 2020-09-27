@@ -36,7 +36,7 @@
 
         #region Interface Implementations
 
-        public async Task<T> FetchOrAddAsync<T>(Func<Task<T>> itemToAddFunc, object cacheKeyModifier = null, bool useCache = true, [CallerFilePath]string autoParentKey = null, [CallerMemberName]string autoMemberName = null)
+        public async Task<T> FetchOrAddAsync<T>(Func<Task<T>> itemToAddFunc, object cacheKeyModifier = null,TimeSpan? expiryInMinutes = null, bool useCache = true, [CallerFilePath]string autoParentKey = null, [CallerMemberName]string autoMemberName = null)
             where T : class
         {
             if (!useCache)
@@ -67,7 +67,7 @@
                     return result;
             }
 
-            var cacheAddResult = await _cacheProvider.AddAsync(cacheKey, result);
+            var cacheAddResult = await _cacheProvider.AddAsync(cacheKey, result, expiryInMinutes);
 
             if (cacheAddResult)
             {

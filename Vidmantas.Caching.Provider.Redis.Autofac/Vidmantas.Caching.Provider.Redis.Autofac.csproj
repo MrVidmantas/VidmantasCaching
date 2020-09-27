@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vidmantas.Caching.Provider.Redis\Vidmantas.Caching.Provider.Redis.csproj" />
+    <ProjectReference Include="..\Vidmantas.Caching\Vidmantas.Caching.csproj" />
+  </ItemGroup>
+
+</Project>
